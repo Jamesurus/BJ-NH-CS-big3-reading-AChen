@@ -326,11 +326,9 @@ SMTP: simple mail transfer protocol
 
 HTTP: hypertext transfer protocol
 
-## DHCP dynamci host configuration protocol
+## DHCP dynamic host configuration protocol
 
-return not only IP address
-
-also 
+return not only IP address also 
 
 1. first hop router's IP address
 2. local DNS server
