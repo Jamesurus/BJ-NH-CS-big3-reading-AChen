@@ -1,0 +1,13 @@
+public class PizzaStore{
+    private int pizaNumber = 0;
+    public synchronized void cook(){
+        while(pizaNumber == 10) wait();
+        if(pizaNumber++ == 0)
+            notifyAll();
+    }
+    public synchronized void sell(){
+        while(pizaNumber == 0) wait();
+        if(pizaNumber-- == 10)
+            notifyAll();
+    }
+}
