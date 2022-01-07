@@ -1,0 +1,10 @@
+int interested[2]=0;
+int processNumber=2;
+public void enterCS(int process){
+    int other = 1-process;
+    interested[process] = true;
+    while(interested[other]==true);
+}
+public void leaveCS(int process){
+    interested[process]=0;
+}
