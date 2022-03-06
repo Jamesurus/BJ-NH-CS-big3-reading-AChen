@@ -1,0 +1,66 @@
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        //1.关于文件绝对路径的输入
+        //2.关于字符串的输入
+        //3.关于isAnimated的输入
+        boolean isanimation;//
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("now input");
+        String booleannnn = scanner.nextLine();
+        if (booleannnn.equals("true")) {
+            isanimation = true;
+        } else if (booleannnn.equals("false")) {
+            isanimation = false;
+        } else {
+            isanimation = true;
+        }
+
+        UniversalTuringMachine a = new UniversalTuringMachine();
+        TuringMachine machine = new TuringMachine(3, "qo", "qa", "qr");
+        //记得修改构造函数里的rulesNumber
+        Move left = MoveClassical.LEFT;
+        Move right = MoveClassical.RIGHT;
+        machine.addRule("q0", '0', "qa", '0', left);
+        machine.addRule("q0", '1', "qr", '1', right);
+        machine.addRule("q0", '*', "qr", '*', right);
+
+        a.loadTuringMachine(machine);
+
+        //手动输入tape条带
+        String str = "0100100111100000010*";
+        a.loadInput("0100100111100000010*");
+        char[] array = str.toCharArray();
+        a.display();
+
+        //往下可以试着简化为car函数
+        //rules=q0,0,qa,0,RIGHT<>q0,1,qr,1,RIGHT<>q0,*,qr,*,RIGHT
+        while (machine.getHead().getCurrentCell() < 20 && machine.getHead().getCurrentCell() >= 0) {
+            if (machine.getRules()[0][0].equals("q0") && array[0] == '0') {
+                try {
+                    Thread.sleep(800);
+                } catch (InterruptedException ie) {
+                }
+                machine.getHead().setCurrentState("qa");
+                a.writeOnCurrentCell('0');
+                a.moveHead(right, isanimation);
+            } else if (machine.getRules()[0][0].equals("q0") && array[0] == '1') {//q0,1,qr,1,RIGHT
+                try {
+                    Thread.sleep(800);
+                } catch (InterruptedException ie) {
+                }
+                machine.getHead().setCurrentState("qr");
+                a.moveHead(right, isanimation);
+            } else if (machine.getRules()[0][0].equals("q0") && array[0] == '*') {//q0,*,qr,*,RIGHT
+                try {
+                    Thread.sleep(800);
+                } catch (InterruptedException ie) {
+                }
+                machine.getHead().setCurrentState("qr");
+                a.moveHead(right, isanimation);
+            }
+
+        }
+    }
+}
+
