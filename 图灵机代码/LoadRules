@@ -1,0 +1,27 @@
+import java.io.FileReader;
+import java.util.Scanner;
+
+public class LoadRules {
+    private TuringMachine turingmachine;
+    private String file_path;
+    private Move left;
+    private Move right;
+    private int a;
+    private String[] store_2;
+
+    public LoadRules(TuringMachine turingmachine, String[] store_2, Move left, Move right, int a){
+        //此时store_2[2]内存储了两条纯净规则
+        String[] str1 = store_2[a-1].split("<>");
+        for(int count=0;count<str1.length;count++){
+            String strC1 = str1[count].split(",")[0];
+            char c2 = str1[count].split(",")[1].charAt(0);
+            String strC3 = str1[count].split(",")[2];
+            char c4 = str1[count].split(",")[3].charAt(0);
+            if(str1[count].split(",")[4].equals("LEFT")){
+                turingmachine.addRule(strC1,c2,strC3,c4,left);
+            }else{
+                turingmachine.addRule(strC1,c2,strC3,c4,right);
+            }
+        }
+    }
+}
