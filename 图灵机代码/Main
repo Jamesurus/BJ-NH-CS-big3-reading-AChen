@@ -1,0 +1,60 @@
+import java.io.FileReader;
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        //1.关于文件绝对路径的输入
+        //2.关于字符串的输入
+        //3.关于isAnimated的输入
+        boolean isanimation;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("aninated or not?");
+        String booleannnn = scanner.nextLine();
+        if (booleannnn.equals("true")) {
+            isanimation = true;
+        } else if (booleannnn.equals("false")) {
+            isanimation = false;
+        } else {
+            isanimation = true;
+        }
+        /*up 关于boolean输入*/
+        String fileName = new String();
+        fileName = scanner.nextLine();
+        /*up 文件绝对路径读取*/
+        String[] store = new String[50];
+        String[] store_2 = new String[20];
+        int i = 0,j=0;
+        try (Scanner sc = new Scanner(new FileReader(fileName))) {
+            while (sc.hasNextLine()) {  //按行读取字符串
+                store[i] = sc.nextLine();//将读取到的存到字符串数组里
+                if(store[i].contains("<>"))
+                {
+                    store_2[j] = store[i].split("=")[1];//得到了store_2[],两条包含rule的字符串
+                    j++;//带"<>"de 两行存储到store_2数组里
+                }
+                i++;
+            }
+        }catch (Exception e) {}
+        String[] store_3 = new String[j];
+        int[] number = new int[j];
+        TuringMachine[] tj = new TuringMachine[j];
+        for(int count4=0;count4<store_3.length;count4++){
+            store_3[count4]=store_2[count4];
+            number[count4]=store_3[count4].split("<>").length;
+        }//得到大小为2的数组,两条规则,j=2
+        UniversalTuringMachine a = new UniversalTuringMachine();
+        for(int count5=0;count5<j;count5++){
+            tj[count5]=new TuringMachine(number[count5],"q0","qa","qr");
+        }
+        /*up 根据文件中有多少条规则,创建多少个图灵机,且都是适配大小*/
+        Move left = MoveClassical.LEFT;
+        Move right = MoveClassical.RIGHT;
+        String str = "00001111****0000000*";
+        /*往下有两个选择,U图灵机挂载图灵机0或者图灵机1*/
+        LoadRules addru = new LoadRules(tj[1], store_3, left, right,2);
+        /*对于此处的car,可挂载不同的machine*/
+        Driver car = new Driver(tj[1],a,str,left,right,isanimation);
+        /*up 装载发动机*/
+        /*Over*/
+    }
+}
+
